@@ -1,0 +1,7 @@
+#!/bin/sh
+
+case $1 in
+    w) nsxiv -t "$HOME/Images/Wallpapers" ;;
+    s) maim -su -m 10 "$HOME/Images/Captures/$(date +%s).png" ;;
+    c) maim -su -m 10 | xclip -se c -t image/png
+esac

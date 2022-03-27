@@ -1,0 +1,25 @@
+# ~/.inputrc
+
+$include /etc/inputrc
+
+set echo-control-characters off
+set show-all-if-ambiguous on
+set completion-ignore-case on
+set completion-map-case on
+set match-hidden-files off
+set page-completions off
+set colored-stats On
+set visible-stats On
+set mark-symlinked-directories On
+set colored-completion-prefix On
+set menu-complete-display-prefix On
+set bind-tty-special-chars off
+
+# emacs mode keybindings
+$if mode=emacs
+"\e[A": history-search-backward
+"\e[B": history-search-forward
+"\e[Z": menu-complete-backward
+"\C-w": backward-kill-word
+TAB: menu-complete
+$endif
