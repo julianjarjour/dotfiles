@@ -4,6 +4,6 @@ case $1 in
     w) nsxiv -t "$HOME/Images/Wallpapers" ;;
     s) maim -su -m 10 "$HOME/Images/Captures/$(date +%s).png" ;;
     c) maim -su -m 10 | xclip -se c -t image/png ;;
-    d) pactl set-sink-volume 0 -5% ;;
-    u) pactl set-sink-volume 0 +5% ;;
+    d) pactl set-sink-volume @DEFAULT_SINK@ -5% ;;
+    u) pactl set-sink-volume @DEFAULT_SINK@ +5% ;;
 esac
