@@ -68,6 +68,8 @@ static const char *spotifycmd[]  = { "spotify", NULL };
 static const char *zathuracmd[]  = { "zathura", NULL };
 static const char *upvol[] = { "dwm_run", "u", NULL };
 static const char *downvol[] = { "dwm_run", "d", NULL };
+static const char *headphone[] = { "pacmd", "set-default-sink", "alsa_output.usb-Kingston_HyperX_Virtual_Surround_Sound_00000000-00.analog-stereo", NULL };
+static const char *speakers[] = { "pacmd", "set-default-sink", "alsa_output.pci-0000_00_1b.0.analog-stereo", NULL };
 static const char scratchpadname[] = "scratchpad";
 static const char *scratchpadcmd[]  = { "alacritty", "-t", scratchpadname, NULL };
 
@@ -84,6 +86,8 @@ static Key keys[] = {
 	{ MODKEY|ControlMask,           XK_w,      spawn,         {.v = papepick } },
 	{ MODKEY,                       XK_r,      spawn,         {.v = chromcmd } },
 	{ MODKEY,                       XK_p,      togglescratch, {.v = scratchpadcmd } },
+	{ MODKEY|ShiftMask,             XK_F11,    spawn,         {.v = headphone } },
+	{ MODKEY|ShiftMask,             XK_F12,    spawn,         {.v = speakers } },
 	{ MODKEY,                       XK_v,      spawn,          {.v = zathuracmd } },
 	{ MODKEY,                       XK_f,      togglebar,      {0} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
