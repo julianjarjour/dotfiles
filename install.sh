@@ -1,45 +1,40 @@
-#!/bin/sh
+#!/bin/bash
+set -euo pipefail
+
 here="$PWD"
-! [ -f "$here/install.sh" ] && return
+[[ ! -f "$here/install.sh" ]] && exit 1
 
-doas pacman -S autoconf automake gcc make pkgconf patch fakeroot fd ripgrep \
-    alacritty npm pkgstats alsa-utils chromium xclip dmenu maim feh \
-    xorg-xinit xorg-xsetroot mpv zathura-cb xf86-video-amdgpu xorg-server \
-    zathura-pdf-poppler man-db xorg-xrandr ttf-iosevka-nerd ttf-liberation \
-    noto-fonts noto-fonts-cjk noto-fonts-emoji pulseaudio-alsa neovim
+doas ln -sf "/run/systemd/resolve/stub-resolv.conf" "/etc/resolv.conf"
 
-git clone "git://git.suckless.org/dwm" "$HOME/dwm"
-mkdir "$HOME/dwm/patches"
-cd "$HOME/dwm/patches" || return
-curl --remote-name-all "https://dwm.suckless.org/patches/{statusallmons/dwm-statusallmons-6.2.diff,attachbottom/dwm-attachbottom-6.2.diff,scratchpad/dwm-scratchpad-6.2.diff,alwayscenter/dwm-alwayscenter-20200625-f04cac6.diff}"
-cd "$HOME/dwm" || return
-for i in "$HOME/dwm/patches/"*.diff;
-    do patch < $i;
-done
-cp "$here/system/config.h" "$HOME/dwm"
+doas pacman -S base-devel man-db ripgrep fd neovim alacritty mpv maim xclip \
+    ttf-iosevka-nerd ttf-liberation noto-fonts noto-fonts-cjk noto-fonts-emoji \
+    xorg-server xorg-xinit xorg-xsetroot dmenu zathura-pdf-mupdf zathura-cb feh \
+    pipewire-pulse pipewire-jack redshift discord
+
+git clone "https://github.com/tonijarjour/dwm.git" "$HOME/dwm"
+ln -s "$here/dwm.h" "$HOME/dwm/config.h"
+cd "$HOME/dwm" || exit 1
 doas make clean install
 
 git clone "https://aur.archlinux.org/nvim-packer-git.git" "$HOME/packer"
-cd "$HOME/packer" || return
+cd "$HOME/packer" || exit 1
 makepkg -si
 
 git clone "https://aur.archlinux.org/nsxiv.git" "$HOME/nsxiv"
-cd "$HOME/nsxiv" || return
+cd "$HOME/nsxiv" || exit 1
 makepkg -si
 
-doas install -Dm 655 "$here/system/dwm_run" \
-    "/usr/local/bin/"
-doas install -Dm 644 "$here/system/vconsole.conf" \
-    "/etc/"
-doas install -Dm 644 "$here/system/ter-132n.psf.gz" \
-    "/usr/share/kbd/consolefonts/"
-doas install -Dm 644 "$here/system/50-mouse-acceleration.conf" \
-    "/etc/X11/xorg.conf.d/"
-doas ln -sf "/run/systemd/resolve/stub-resolv.conf" \
-    "/etc/resolv.conf"
+git clone "https://aur.archlinux.org/spotify.git" "$HOME/spotify"
+cd "$HOME/spotify" || exit 1
+makepkg -si
 
-mkdir "$HOME/.config"
-ln -sf "$here/home/."* "$HOME/"
+doas install -Dm 644 "$here/50-mouse-acceleration.conf" "/etc/X11/xorg.conf.d"
+mkdir -p "$HOME/.config"
 ln -sf "$here/config/"* "$HOME/.config/"
+
+for f in "$here/home/"*
+do
+    ln -sf "$f" "$HOME/.${f##*/}"
+done
 
 echo "DONE"

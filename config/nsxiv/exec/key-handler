@@ -1,9 +1,11 @@
 #!/bin/sh
 
-case "$1" in
-"C-x")  xclip -in -filter | tr '\n' ' ' | xclip -in -selection clipboard ;;
-"C-c")  while read file; do xclip -selection clipboard -target image/png "$file"; done ;;
-"C-w")  while read file; do feh --bg-fill --no-fehbg "$file" & done ;;
-"C-D")  while read file; do rm "$file" ; echo "deleted $file" & done ;;
-esac
-
+while read file
+do
+  case "$1" in
+  "C-c")  xclip -se c -t image/png "$file" ;;
+  "C-x")  echo -n "$PWD/$file" | xclip -se c ;;
+  "C-w")  feh --bg-fill --no-fehbg "$file" ;;
+  "C-D")  rm "$file" ; echo "deleted $file" ;;
+  esac
+done

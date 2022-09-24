@@ -7,15 +7,17 @@ PS1='\[\e[31m\]\u\[\e[37m\]@\[\e[31m\]\h \[\e[33m\]\W \[\e[90m\]λ \[\e[39m\]'
 
 HISTFILESIZE=10000
 HISTCONTROL='erasedups'
+HISTIGNORE='..:~:ls:history:exit:clear:fg'
 PROMPT_COMMAND='history -a'
 
 shopt -s histappend
 shopt -s autocd
 
 alias vi='nvim'
-alias bat='vi -R'
+alias bat='nvim -R'
 alias ls='ls --color=auto'
 alias lsa='ls -a'
+alias imv='nsxiv -a'
 
 g() {
     case "$1" in 
@@ -42,9 +44,3 @@ g() {
         *) git "$@"
     esac
 }
-
-bash_history_file=$(mktemp "$USER"_bash_historyXXXXXX)
-awk 'NR == FNR { a[$0]++; next; }; ++b[$0] == a[$0]' \
-    "$HOME/.bash_history" "$HOME/.bash_history" > "$bash_history_file"
-mv "$bash_history_file" "$HOME/.bash_history"
-unset bash_history_file

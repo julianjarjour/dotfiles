@@ -2,5 +2,5 @@
 image/png=nsxiv.desktop
 image/jpeg=nsxiv.desktop
 image/gif=nsxiv.desktop
-application/pdf=org.pwmt.zathura-pdf-poppler.desktop
-inode/directory=thunar.desktop
+video/mp4=mpv.desktop
+application/pdf=org.pwmt.zathura-pdf-mupdf.desktop
