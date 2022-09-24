@@ -15,8 +15,8 @@ shopt -s autocd
 
 alias vi='nvim'
 alias bat='nvim -R'
-alias ls='ls --color=auto'
-alias lsa='ls -a'
+alias ls='exa'
+alias lsa='exa -a'
 alias imv='nsxiv -a'
 
 g() {
