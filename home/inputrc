@@ -15,6 +15,7 @@ set colored-completion-prefix on
 set menu-complete-display-prefix on
 set bind-tty-special-chars off
 
+# emacs mode keybindings
 $if mode=emacs
 "\e[A": history-search-backward
 "\e[B": history-search-forward

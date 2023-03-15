@@ -137,7 +137,8 @@ static const Rule rules[] = {
 	RULE(.wintype = WTYPE "TOOLBAR", .isfloating = 1)
 	RULE(.wintype = WTYPE "SPLASH", .isfloating = 1)
 	RULE(.title = "spterm", .tags = SPTAG(0), .isfloating = 1)
-	RULE(.class = "Nsxiv", .isfloating = 1)
+	RULE(.class = "Thunar", .isfloating = 1)
+	RULE(.class = "Sxiv", .isfloating = 1)
 	RULE(.class = "Steam", .isfloating = 1)
 	RULE(.class = "obs", .isfloating = 1)
 };
@@ -194,8 +195,10 @@ static const Layout layouts[] = {
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
 
 /* commands */
+static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = {
 	"dmenu_run",
+	"-m", dmenumon,
 	"-fn", dmenufont,
 	"-nb", normbgcolor,
 	"-nf", normfgcolor,
@@ -204,12 +207,11 @@ static const char *dmenucmd[] = {
 	NULL
 };
 
-static const char *brwcmd[] = { "google-chrome-stable", "--enable-features=WebUIDarkMode", "--force-dark-mode", NULL };
+static const char *brwcmd[] = { "librewolf", NULL };
 static const char *upvol[] = { "pactl", "set-sink-volume", "@DEFAULT_SINK@", "+5%", NULL };
 static const char *dovol[] = { "pactl", "set-sink-volume", "@DEFAULT_SINK@", "-5%", NULL };
 static const char *termcmd[]  = { "alacritty", NULL };
 static const char *pdfcmd[] = { "zathura", NULL };
-static const char *discordcmd[]  = { "discord", NULL };
 static const char *spotifycmd[]  = { "spotify", NULL };
 static const char *headphone[] = { "pactl", "set-default-sink", "alsa_output.usb-Kingston_HyperX_Virtual_Surround_Sound_00000000-00.analog-stereo", NULL };
 static const char *speakers[] = { "pactl", "set-default-sink", "alsa_output.pci-0000_00_1b.0.analog-stereo", NULL };
@@ -217,7 +219,6 @@ static const char *speakers[] = { "pactl", "set-default-sink", "alsa_output.pci-
 
 static const Key keys[] = {
 	/* modifier                     key            function                argument */
- 	{ MODKEY,                       XK_Left,       spawn,                  {.v = discordcmd } },
 	{ MODKEY,                       XK_Right,      spawn,                  {.v = spotifycmd } },
  	{ MODKEY|ShiftMask,             XK_F11,        spawn,                  {.v = headphone } },
 	{ MODKEY|ShiftMask,             XK_F12,        spawn,                  {.v = speakers } },
@@ -225,7 +226,7 @@ static const Key keys[] = {
   { MODKEY,                       XK_Down,       spawn,                  {.v = dovol } },
 	{ MODKEY,                       XK_Print,      spawn,                  SHCMD("maim -su -m 10 | xclip -se c -t image/png") },
 	{ MODKEY|ShiftMask,             XK_Print,      spawn,                  SHCMD("maim -su -m 10 $HOME/Images/Captures/$(date +%s).png") },
-	{ MODKEY|ControlMask,           XK_w,          spawn,                  SHCMD("nsxiv -t $HOME/Images/Wallpapers") },
+	{ MODKEY|ControlMask,           XK_w,          spawn,                  SHCMD("sxiv -t $HOME/Images/Wallpapers") },
 	{ MODKEY,                       XK_space,      spawn,                  {.v = dmenucmd } },
 	{ MODKEY,                       XK_Return,     spawn,                  {.v = termcmd } },
 	{ MODKEY,                       XK_r,          spawn,                  {.v = brwcmd } },
